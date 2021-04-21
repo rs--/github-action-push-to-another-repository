@@ -11,6 +11,7 @@ USER_EMAIL="$4"
 DESTINATION_REPOSITORY_USERNAME="$5"
 TARGET_BRANCH="$6"
 COMMIT_MESSAGE="$7"
+TARGET_REPO_DIR="$8"
 
 if [ -z "$DESTINATION_REPOSITORY_USERNAME" ]
 then
@@ -28,6 +29,14 @@ ls -la "$CLONE_DIR"
 
 TARGET_DIR=$(mktemp -d)
 mv "$CLONE_DIR/.git" "$TARGET_DIR"
+
+echo "TARGET DIR: ${TARGET_REPO_DIR} | ${TARGET_DIR}"
+if [ !-z "$TARGET_REPO_DIR" ]
+then
+  mkdir -p '${TARGET_DIR}/${TARGET_REPO_DIR}'
+  $TARGET_DIR='${TARGET_DIR}/${TARGET_REPO_DIR}'
+fi
+echo "TARGET DIR: ${TARGET_REPO_DIR} | ${TARGET_DIR}"
 
 echo "Copying contents to git repo"
 cp -ra "$SOURCE_DIRECTORY"/. "$TARGET_DIR"
